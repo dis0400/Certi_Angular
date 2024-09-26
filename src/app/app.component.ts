@@ -27,14 +27,20 @@ export class AppComponent {
   students:number[] = [1,2,3,4,5,6]
   parents:number[] = [7,8,9,10]
 
+  var1 = 0
+  var2 = null
+  var3 = 'hola'
+
   constructor() {
     const {name, age} = this.person
     console.log('desestructuration  ', name, age)
 
     let both =[...this.students, ...this.parents]
     console.log('spreed operator: ', both)
-
     console.log('REST operator: ', this.sum(2,4,6))
+
+    console.log('Nullish coalesing: ', this.var2 ?? this.var3)
+    console.log('OR: ', this.var2 || this.var1)
 
     // console.log('subtract ', this.subtract(8, 4))
 
