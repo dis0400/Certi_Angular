@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { UserCardComponent } from './user-card/user-card.component';
 
 interface IPerson{
   name: string,
@@ -10,7 +11,7 @@ interface IPerson{
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, UserCardComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -74,5 +75,9 @@ export class AppComponent {
     for (let i = 0; i < evenNumbers.length; i++) {
       // console.log('even person =', evenNumbers[i]);
     }
+  }
+
+  public receiveData(data:any){
+    console.log('Print in father component: ', data)
   }
 }
