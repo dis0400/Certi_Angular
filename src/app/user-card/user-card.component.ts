@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common'
 @Component({
   selector: 'user-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './user-card.component.html',
   styleUrl: './user-card.component.scss'
 })
