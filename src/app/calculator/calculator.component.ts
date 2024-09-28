@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-calculator',
+  selector: 'calculator',
   standalone: true,
   imports: [FormsModule],
   templateUrl: './calculator.component.html',

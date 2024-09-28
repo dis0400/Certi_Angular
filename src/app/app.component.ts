@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { UserCardComponent } from './user-card/user-card.component';
 import { CalculatorComponent } from './calculator/calculator.component';
+import { CommonModule } from '@angular/common';
 
 interface IPerson{
   name: string,
@@ -12,7 +13,7 @@ interface IPerson{
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, UserCardComponent, CalculatorComponent],
+  imports: [RouterOutlet, UserCardComponent, CalculatorComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -22,8 +23,8 @@ export class AppComponent {
   animals:string[] = ['a','b','c','d','e','f','g'];
 
   person: IPerson = {
-    name: 'Alexia',
-    lastName: 'Marin',
+    name: "Alexia",
+    lastName: "Marin",
     age: 22
   }
 
@@ -70,12 +71,9 @@ export class AppComponent {
   }
 
   public getArray() {
-    const persons: number[] = [1, 2, 3, 4, 5, 6, 7, 8]
-
-    const evenNumbers = persons.filter(person => person % 2 === 0);
-
-    for (let i = 0; i < evenNumbers.length; i++) {
-      // console.log('even person =', evenNumbers[i]);
+    const persons: number[] = [1, 2, 3, 4, 5]
+    for (let i = 0; i < persons.length; i++) {
+      //console.log('person =', persons[i])
     }
   }
 
