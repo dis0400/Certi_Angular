@@ -24,19 +24,48 @@
  } @else {
     <p> new Sintax, is false</p> 
  }
- <p *ngFor="let item of ['a','b','c','d']; let i = index">
-     old for, value: {{item}}, index: {{i}}
- </p>
- @for(item of ['a','b','c','d']; track item){
-     <p>New Syntax Student: {{item}}</p>
-   }
-   <div [ngSwitch]="var1">
-     <p *ngSwitchCase="0">var is 0</p>
-     <p *ngSwitchCase="1">var is 1</p>
-     <p *ngSwitchDefault>default value</p>
-   </div>
-   @switch(var1) {
-     @case(0) { <p>new syntax, var is 0</p> }
-     @case(1) { <p>new syntax, var is 1</p> }
-     @default { <p>new syntax, default</p> }
-   }
+ 
+<p *ngFor="let item of ['a','b','c','d']; let i = index">
+    old for, value: {{item}}, index: {{i}}
+</p>
+
+@for(item of ['a','b','c','d']; track item){
+    <p>New Syntax Student: {{item}}</p>
+}
+
+<div [ngSwitch]="var1">
+    <p *ngSwitchCase="0">var is 0</p>
+    <p *ngSwitchCase="1">var is 1</p>
+    <p *ngSwitchDefault>default value</p>
+</div>
+
+@switch(var1) {
+    @case(0) { <p>new syntax, var is 0</p> }
+    @case(1) { <p>new syntax, var is 1</p> }
+    @default { <p>new syntax, default</p> }
+}
+
+<div>
+  <h1>Personas</h1>
+
+  <div *ngFor="let person of filteredPersons">
+    <p>Persona</p>
+    <p>Género: {{ person.gender }}</p>
+    <p>Nombre: {{ person.name }}</p>
+    <p>Edad: {{ person.age }}</p>
+    <p *ngIf="person.age !== undefined && person.age > 18">Descuento</p>
+  </div>
+
+  <div>
+    <p>Total personas femeninas: {{ totalFemales }}</p>
+    <p>Total personas masculinas: {{ totalMales }}</p>
+  </div>
+
+  <div>
+    <p>Personas con descuento: {{ totalWithDiscount }}</p>
+  </div>
+
+  <button (click)="toggleDiscountFilter()">
+    {{ showDiscountedOnly ? 'Mostrar todas las personas' : 'Mostrar solo con descuento' }}
+  </button>
+</div>

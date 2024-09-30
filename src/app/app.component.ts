@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 interface IPerson{
   name: string,
   lastName: string,
+  gender: string,
   age?: number
 }
 
@@ -25,7 +26,39 @@ export class AppComponent {
   person: IPerson = {
     name: "Alexia",
     lastName: "Marin",
+    gender: "female", 
     age: 22
+  }
+
+  persons: IPerson[] = [
+    { name: 'Alexia', lastName: 'Marin', gender: 'female', age: 19 },
+    { name: 'Juan', lastName: 'Perez', gender: 'male', age: 15 },
+    { name: 'Maria', lastName: 'Lopez', gender: 'female', age: 20 },
+  ];
+
+  get totalFemales(): number {
+    return this.persons.filter(person => person.gender === 'female').length;
+  }
+
+  get totalMales(): number {
+    return this.persons.filter(person => person.gender === 'male').length;
+  }
+
+  get totalWithDiscount(): number {
+    return this.persons.filter(person => person.age !== undefined && person.age > 18).length;
+  }
+
+  showDiscountedOnly: boolean = false;
+
+  toggleDiscountFilter(): void {
+    this.showDiscountedOnly = !this.showDiscountedOnly;
+  }
+
+  get filteredPersons(): IPerson[] {
+    if (this.showDiscountedOnly) {
+      return this.persons.filter(person => person.age !== undefined && person.age > 18);
+    }
+    return this.persons;
   }
 
   students:number[] = [1,2,3,4,5,6]
