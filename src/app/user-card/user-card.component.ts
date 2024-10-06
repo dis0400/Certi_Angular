@@ -47,26 +47,26 @@ export class UserCardComponent
   showButton:boolean = true
 
   constructor() {
-    console.log("user card constructor");
+    //console.log("user card constructor");
   }
   ngAfterContentInit(): void {
     throw new Error("Method not implemented.");
   }
 
   ngAfterContentChecked(): void {
-    console.log('AFTER CONTENT CHECKED')
+    //console.log('AFTER CONTENT CHECKED')
   }
 
   ngOnInit(): void {
-    console.log("user card on init");
+    //console.log("user card on init");
     this.buttonShow.nativeElement.textContent = 'button Show in OnInit'
     // this.password = this.name + ' ' +  this.email + ' PASSWORD'
   }
   ngOnDestroy(): void {
-    console.log("user card Destroy"); 
+    //console.log("user card Destroy"); 
   }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("CHANGES:", changes);
+    //console.log("CHANGES:", changes);
 
     this.password =
       changes["name"].currentValue +
@@ -76,21 +76,21 @@ export class UserCardComponent
   }
 
   ngDoCheck(): void {
-    console.log("DO CHECK user card")  
+    //console.log("DO CHECK user card")  
    }
 
    ngAfterViewInit(): void {
-    console.log('NG AFTER VIEW INIT')
-    console.log('BUTTON TEST', this.buttonTest)   
+    //console.log('NG AFTER VIEW INIT')
+    //console.log('BUTTON TEST', this.buttonTest)   
     if(this.buttonTest){
       this.buttonTest.nativeElement.textContent = 'button Test in OnInit'
     }
   }
 
   ngAfterViewChecked(): void {
-    console.log('NG AFTER VIEW CHECKED')
+    //console.log('NG AFTER VIEW CHECKED')
   }
-  
+
   public onSendData() {
     //console.log('onSendData in child')
     this.sendData.emit("Hi from child component");
