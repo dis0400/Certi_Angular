@@ -1,7 +1,7 @@
 import {
+  AfterContentChecked,
   AfterContentInit,
-  afterNextRender,
-  afterRender,
+  AfterViewChecked,
   AfterViewInit,
   Component,
   DoCheck,
@@ -31,7 +31,9 @@ export class UserCardComponent
     OnChanges,
     DoCheck,
     AfterContentInit,
-    AfterViewInit
+    AfterViewInit,
+    AfterContentChecked,
+    AfterViewChecked
 {
   @Input() name: string = ""; //Se pone input cuando se quiere recibir datos del padre
   @Input() email: string = "";
@@ -49,6 +51,10 @@ export class UserCardComponent
   }
   ngAfterContentInit(): void {
     throw new Error("Method not implemented.");
+  }
+
+  ngAfterContentChecked(): void {
+    console.log('AFTER CONTENT CHECKED')
   }
 
   ngOnInit(): void {
@@ -77,9 +83,14 @@ export class UserCardComponent
     console.log('NG AFTER VIEW INIT')
     console.log('BUTTON TEST', this.buttonTest)   
     if(this.buttonTest){
-      this.buttonTest.nativeElement.textContent = 'button Test in ngAfterViewInit'
+      this.buttonTest.nativeElement.textContent = 'button Test in OnInit'
     }
   }
+
+  ngAfterViewChecked(): void {
+    console.log('NG AFTER VIEW CHECKED')
+  }
+  
   public onSendData() {
     //console.log('onSendData in child')
     this.sendData.emit("Hi from child component");
