@@ -1,3 +1,4 @@
+import { SharedModule } from "../shared/shared.module";
 import { CommonModule } from "@angular/common";
 import {
   AfterContentChecked,
@@ -21,7 +22,7 @@ import { FormsModule } from "@angular/forms";
 @Component({
   selector: "user-card",
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, SharedModule],
   templateUrl: "./user-card.component.html",
   styleUrl: "./user-card.component.scss"
 })
