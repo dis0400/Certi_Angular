@@ -2,7 +2,7 @@
 <p>Add {{sum(3,5) }}</p>
 <!-- <p>Subtract {{subtract(9,5)}}</p> -->
 
-<p>Only Pares {{getArray()}}</p>
+<!-- <p>Only Pares {{getArray()}}</p>
 
 <button (click)="userCardCreated = !userCardCreated">create and destroy user card</button>
 
@@ -82,4 +82,9 @@
 <counter></counter>
 
 <button (click)="var1 = var1 + 1"> Increment Var1 </button>
-  <p>{{ var1 }}</p>
+  <p>{{ var1 }}</p> -->
+  <user-card [name]="selectedUser.name" [email]="selectedUser.email" (sendData)="receiveData($event)">
+    <p>My HTML from father</p>
+    <button>My button from father</button>
+  </user-card>
+  <button (click)="addVideo()">add new video to youtube</button>
