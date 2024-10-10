@@ -1,0 +1,29 @@
+.card {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .personal-card {
+    background-color: #98dbe3;
+    border: 1px solid #b3e5fc;
+  }
+  
+  .geographic-card {
+    background-color: #eaae53;
+    border: 1px solid #ffcc80;
+  }
+  
+  .messages-card {
+    background-color: #fff9c4;  
+    border: 1px solid #fff59d;
+  
+    .message-item {
+      background-color: #ffffff; 
+      border: 1px solid #cccccc;
+      padding: 10px;
+      margin-bottom: 5px;
+      border-radius: 4px;
+    }
+}  
+  
