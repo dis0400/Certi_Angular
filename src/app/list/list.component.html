@@ -1,0 +1,10 @@
+<table>
+    <tr *ngFor="let person of people">
+      <td>
+        <app-item [person]="person" 
+        (show)="onShow(person)"
+        (delete)="onDelete(person.id)"></app-item>
+      </td>
+    </tr>
+  </table>
+  

@@ -1,0 +1,24 @@
+<div class="card">
+    <div class="card personal-card" *ngIf="type === 'personal'">
+        <p>Name: {{ person.name }}</p>
+        <p>LastName: {{ person.lastName }}</p>
+        <p>Type: {{ person.type }}</p>
+        <p *ngIf="person.type === 'student'">Score: {{ score }}</p>
+        <p *ngIf="person.type === 'professor'">Subject: {{ person.subject }}</p>
+      </div>
+      
+      <div class="card geographic-card" *ngIf="type === 'geographic'">
+        <p>Address: {{ person.address.street }} {{ person.address.number }}</p>
+        <p>Country: {{ person.country }}</p>
+        <p>Province: {{ person.province }}</p>
+      </div>
+      
+      <div class="card messages-card" *ngIf="type === 'messages'">
+        <app-search (search)="filterMessages($event)"></app-search>
+        <ul>
+          <li *ngFor="let message of filteredMessages" class="message-item">{{ message }}</li>
+        </ul>
+      </div>      
+      
+  </div>
+  

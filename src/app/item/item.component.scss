@@ -1,0 +1,22 @@
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  
+    &.student {
+      background-color: #e0f7fa; 
+    }
+  
+    &.professor {
+      background-color: #ffe0b2;
+    }
+  
+    button {
+      margin-left: 10px;
+    }
+  }
+  

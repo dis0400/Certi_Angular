@@ -5,6 +5,7 @@ import { CalculatorComponent } from './calculator/calculator.component';
 import { CommonModule } from '@angular/common';
 import { CounterComponent } from './counter/counter.component';
 import { filter, from, map, tap } from "rxjs";
+import { AppColorsDirective } from './app-colors.directive';
 
 interface IPerson{
   name: string,
@@ -21,6 +22,7 @@ interface IPerson{
     CalculatorComponent,
     CommonModule,
     CounterComponent,
+    AppColorsDirective
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
@@ -101,12 +103,16 @@ export class AppComponent {
     }
   }
 
-  public receiveData(data:any){
-    console.log('Print in father component: ', data)
+  public getColor(value:string): void {
+    console.log("value: ", value);
   }
 
-  public onResult(event:any){
-    console.log('event from child:', event)
-    this.result = event ?? 0
-  }
+  // public receiveData(data:any){
+  //   console.log('Print in father component: ', data)
+  // }
+
+  // public onResult(event:any){
+  //   console.log('event from child:', event)
+  //   this.result = event ?? 0
+  // }
 }
