@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { CounterComponent } from './counter/counter.component';
 import { filter, from, map, tap } from "rxjs";
 import { AppColorsDirective } from './app-colors.directive';
+import { CreateHtmlDirective } from './create-html.directive';
 
 interface IPerson{
   name: string,
@@ -22,7 +23,8 @@ interface IPerson{
     CalculatorComponent,
     CommonModule,
     CounterComponent,
-    AppColorsDirective
+    AppColorsDirective,
+    CreateHtmlDirective
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
@@ -35,7 +37,7 @@ export class AppComponent {
   ];
   selectedUser: any = this.users[0];
   
-  userCardCreated: boolean = true 
+  userCardCreated: boolean = false 
   result: number = 0;
   title: number = 10;
   animals:string[] = ['a','b','c','d','e','f','g'];
@@ -103,7 +105,7 @@ export class AppComponent {
     }
   }
 
-  public getColor(value:string): void {
+  public getColor(value:any): void {
     console.log("value: ", value);
   }
 
