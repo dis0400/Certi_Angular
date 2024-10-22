@@ -1,13 +1,20 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { UserComponent } from './user/user.component';
+import { NotificationComponent } from './notification/notification.component';
+import { NotificationService } from './notification.service';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
+  standalone: true, // Definir el componente root como standalone
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss'],
+  imports: [UserComponent, NotificationComponent] // Importar los componentes independientes
 })
 export class AppComponent {
-  title = 'angular-course-2024';
+  constructor(private notificationService: NotificationService) {}
+
+  addNewNotification(network: string, message: string): void {
+    const isPremium = ['tiktok', 'whatsapp'].includes(network);
+    this.notificationService.addNotification(network, message, isPremium);
+  }
 }

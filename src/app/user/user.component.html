@@ -1,0 +1,34 @@
+<div class="user-info">
+    <h2>User Information</h2>
+    <p><strong>Name:</strong> Juan Perez</p>
+    <p><strong>Age:</strong> 15</p>
+    <p><strong>Status:</strong> Active</p>
+  
+    <div class="subscription-type">
+      <label><strong>Subscription Type:</strong></label>
+      <button (click)="toggleSubscription('Free')">Free</button>
+      <button (click)="toggleSubscription('Premium')">Premium</button>
+    </div>
+  
+    <div *ngIf="subscriptionType === 'Premium'">
+      <p><strong>Amount available:</strong> {{ amountAvailable$ | async }}$</p>
+    </div>
+  
+    <h3>Social Networks</h3>
+    <div class="networks">
+      <div *ngFor="let network of networks">
+        <button *ngIf="canSubscribeToNetwork(network)" (click)="subscribedNetworks.push(network)">
+          Subscribe to {{ network }}
+        </button>
+      </div>
+    </div>
+  
+    <h3>Subscriptions</h3>
+    <div class="subscriptions">
+      <div *ngFor="let network of subscribedNetworks">
+        <span>{{ network }}</span>
+        <button (click)="unsubscribe(network)">Unsubscribe</button>
+      </div>
+    </div>
+  </div>
+  

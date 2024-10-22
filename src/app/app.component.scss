@@ -1,0 +1,52 @@
+.header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .btn {
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .youtube {
+    background-color: #f44336;
+  }
+  
+  .tiktok {
+    background-color: #673ab7;
+  }
+  
+  .instagram {
+    background-color: #ff9800;
+  }
+  
+  .facebook {
+    background-color: #2196f3;
+  }
+  
+  .whatsapp {
+    background-color: #4caf50;
+  }
+  
+  .content {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .user-section, .notification-section {
+    width: 50%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+  }
+  
+  .notification-item {
+    background-color: #f1f1f1;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  

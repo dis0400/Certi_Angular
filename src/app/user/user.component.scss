@@ -1,0 +1,28 @@
+.user-info {
+    font-family: Arial, sans-serif;
+  }
+  
+  .subscription-type button {
+    margin-right: 10px;
+  }
+  
+  .networks, .subscriptions {
+    margin-top: 20px;
+  }
+  
+  .subscriptions div {
+    margin-bottom: 10px;
+  }
+  
+  button {
+    padding: 5px 10px;
+    background-color: #ddd;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #ccc;
+  }
+  
