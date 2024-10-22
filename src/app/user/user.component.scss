@@ -1,28 +1,26 @@
-.user-info {
-    font-family: Arial, sans-serif;
-  }
-  
-  .subscription-type button {
-    margin-right: 10px;
-  }
-  
-  .networks, .subscriptions {
-    margin-top: 20px;
-  }
-  
-  .subscriptions div {
+.tabs {
+    display: flex;
+    gap: 10px;
     margin-bottom: 10px;
   }
   
   button {
-    padding: 5px 10px;
-    background-color: #ddd;
-    border: none;
-    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
     cursor: pointer;
   }
   
-  button:hover {
-    background-color: #ccc;
+  button.active {
+    background-color: white;
+    border-bottom: 2px solid #007bff;
+  }
+  
+  .user-section {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
   }
   

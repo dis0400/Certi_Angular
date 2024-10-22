@@ -1,33 +1,48 @@
-<div class="user-info">
-    <h2>User Information</h2>
-    <p><strong>Name:</strong> Juan Perez</p>
-    <p><strong>Age:</strong> 15</p>
-    <p><strong>Status:</strong> Active</p>
-  
-    <div class="subscription-type">
-      <label><strong>Subscription Type:</strong></label>
-      <button (click)="toggleSubscription('Free')">Free</button>
-      <button (click)="toggleSubscription('Premium')">Premium</button>
-    </div>
-  
-    <div *ngIf="subscriptionType === 'Premium'">
-      <p><strong>Amount available:</strong> {{ amountAvailable$ | async }}$</p>
-    </div>
-  
-    <h3>Social Networks</h3>
-    <div class="networks">
-      <div *ngFor="let network of networks">
-        <button *ngIf="canSubscribeToNetwork(network)" (click)="subscribedNetworks.push(network)">
-          Subscribe to {{ network }}
+<div class="user-grid">
+    <div *ngFor="let user of users" class="user-section">
+      <div class="tabs">
+        <button (click)="showUserInfo(user.user_id)" [class.active]="activeTabs[user.user_id] === 'user'">User</button>
+        <button (click)="showNotifications(user.user_id)" [class.active]="activeTabs[user.user_id] === 'notifications'">
+          Notifications ({{ getFilteredNotifications(user).length }})
         </button>
       </div>
-    </div>
   
-    <h3>Subscriptions</h3>
-    <div class="subscriptions">
-      <div *ngFor="let network of subscribedNetworks">
-        <span>{{ network }}</span>
-        <button (click)="unsubscribe(network)">Unsubscribe</button>
+      <div *ngIf="activeTabs[user.user_id] === 'user'">
+        <h2>User Information</h2>
+        <p><strong>Name:</strong> {{ user.name }}</p>
+        <p><strong>Age:</strong> {{ user.age }}</p>
+        <p><strong>Status:</strong> {{ user.status }}</p>
+  
+        <h3>Subscription Type</h3>
+        <button [class.active]="user.subscriptionType === 'free'" (click)="toggleSubscription(user, 'free')">Free</button>
+        <button [class.active]="user.subscriptionType === 'premium'" (click)="toggleSubscription(user, 'premium')">Premium</button>
+  
+        <p><strong>Amount Available:</strong> {{ user.amountAvailable }}$</p>
+  
+        <div class="social-networks">
+          <h3>Social Networks</h3>
+          <div class="network" *ngFor="let network of socialNetworks">
+            <div *ngIf="!user.subscriptions.includes(network.id)">
+              <span>{{ network.platform }}</span>
+              <button (click)="subscribe(user, network)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="subscriptions">
+          <h3>Subscriptions</h3>
+          <div class="subscription" *ngFor="let sub of user.subscriptions">
+            <span>{{ getPlatformName(sub) }}</span>
+            <button (click)="unsubscribe(user, sub)">x</button>
+          </div>
+        </div>
+      </div>
+ 
+      <div *ngIf="activeTabs[user.user_id] === 'notifications'">
+        <h2>Notifications</h2>
+        <ul>
+          <li *ngFor="let notification of getFilteredNotifications(user)">{{ notification }}</li>
+        </ul>
       </div>
     </div>
   </div>

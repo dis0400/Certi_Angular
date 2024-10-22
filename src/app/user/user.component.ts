@@ -1,40 +1,58 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NotificationService } from '../notification.service';
-import { Observable } from 'rxjs';
+import { data, socialNetworks } from '../data'; 
 
 @Component({
   selector: 'app-user',
-  standalone: true, // Esto hace que el componente sea independiente
+  standalone: true,
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
-  imports: [CommonModule] // Si necesitas más módulos, los importas aquí
+  imports: [CommonModule]
 })
-export class UserComponent {
-  subscriptionType: 'Free' | 'Premium' = 'Free';
-  amountAvailable$: Observable<number>;
-  networks = ['youtube', 'facebook', 'tiktok', 'whatsapp'];
-  subscribedNetworks = ['youtube', 'facebook'];
+export class UserComponent implements OnInit {
+  activeTabs: { [key: string]: 'user' | 'notifications' } = {};
+  users = Object.values(data);
+  socialNetworks = socialNetworks; 
 
-  constructor(private notificationService: NotificationService) {
-    this.amountAvailable$ = this.notificationService.getAmountAvailable();
-  }
-
-  toggleSubscription(type: 'Free' | 'Premium'): void {
-    this.subscriptionType = type;
+  ngOnInit() {
+    this.users.forEach(user => {
+      this.activeTabs[user.user_id] = 'user';
+    });
   }
 
-  isPremiumNetwork(network: string): boolean {
-    return ['tiktok', 'whatsapp'].includes(network);
+  showUserInfo(userId: string) {
+    this.activeTabs[userId] = 'user';
   }
 
-  canSubscribeToNetwork(network: string): boolean {
-    return (
-      this.subscriptionType === 'Premium' || !this.isPremiumNetwork(network)
-    );
+  showNotifications(userId: string) {
+    this.activeTabs[userId] = 'notifications';
   }
-  unsubscribe(network: string): void {
-    this.subscribedNetworks = this.subscribedNetworks.filter(n => n !== network);
+
+  subscribe(user: any, network: any) {
+    user.subscriptions.push(network.id);
   }
-  
+
+  unsubscribe(user: any, networkId: number) {
+    user.subscriptions = user.subscriptions.filter((id: number) => id !== networkId);
+  }
+
+  getPlatformName(platformId: number) {
+    const platform = this.socialNetworks.find(network => network.id === platformId);
+    return platform ? platform.platform : '';
+  }
+
+  getFilteredNotifications(user: any) {
+    if (user.subscriptionType === 'free') {
+      return user.notifications.filter((notification: string) =>
+        !['tiktok', 'whatsapp'].some(premiumPlatform =>
+          notification.toLowerCase().includes(premiumPlatform)
+        )
+      );
+    }
+    return user.notifications;
+  }
+
+  toggleSubscription(user: any, type: 'free' | 'premium') {
+    user.subscriptionType = type;
+  }
 }

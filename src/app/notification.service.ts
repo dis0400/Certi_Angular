@@ -12,7 +12,7 @@ interface Notification {
 export class NotificationService {
   private notifications: Notification[] = [];
   private notificationSubject: BehaviorSubject<Notification[]> = new BehaviorSubject(this.notifications);
-  private amountAvailable: BehaviorSubject<number> = new BehaviorSubject(30); // Inicializado en 30$
+  private amountAvailable: BehaviorSubject<number> = new BehaviorSubject(30);
 
   constructor() {}
 
@@ -27,7 +27,7 @@ export class NotificationService {
   addNotification(network: string, message: string, isPremium: boolean): void {
     const currentAmount = this.amountAvailable.value;
     if (isPremium && currentAmount >= 5) {
-      this.amountAvailable.next(currentAmount - 5); // Descontar 5$ por notificación premium
+      this.amountAvailable.next(currentAmount - 5);
     }
 
     if (!isPremium || (isPremium && currentAmount >= 5)) {

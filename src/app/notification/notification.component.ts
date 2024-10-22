@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-notification',
-  standalone: true, // Esto hace que el componente sea independiente
+  standalone: true, 
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss'],
   imports: [CommonModule]
