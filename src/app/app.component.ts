@@ -1,16 +1,17 @@
-import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink, Router } from '@angular/router';
-import { UserCardComponent } from './user-card/user-card.component';
-import { CalculatorComponent } from './calculator/calculator.component';
-import { CommonModule } from '@angular/common';
-import { CounterComponent } from './counter/counter.component';
+import { Component } from "@angular/core";
+import { RouterOutlet, RouterLink, Router } from "@angular/router";
+import { UserCardComponent } from "./user-card/user-card.component";
+import { CalculatorComponent } from "./calculator/calculator.component";
+import { CommonModule } from "@angular/common";
+import { CounterComponent } from "./counter/counter.component";
 import { filter, from, map, tap } from "rxjs";
-import { AppColorsDirective } from './app-colors.directive';
-import { CreateHtmlDirective } from './create-html.directive';
-import { PurePipe } from './pure.pipe';
-import { ImpurePipe } from './impure.pipe';
+import { AppColorsDirective } from "./app-colors.directive";
+import { CreateHtmlDirective } from "./create-html.directive";
+import { PurePipe } from "./pure.pipe";
+import { ImpurePipe } from "./impure.pipe";
 import {MatCardModule} from '@angular/material/card';
 import { MatButtonModule } from "@angular/material/button";
+import { FormsModule } from "@angular/forms";
 
 interface IPerson{
   name: string,
@@ -33,12 +34,15 @@ interface IPerson{
     PurePipe,
     ImpurePipe,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    FormsModule
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
 })
 export class AppComponent {
+   name:string = 'testName'
+  lastName:string = ''
 
   users = [
     { name: "abc", email: "abc@gmail.com" },
@@ -149,4 +153,7 @@ export class AppComponent {
     this.router.navigate(['cal'], {queryParams: {name: 'John', age: 20}})
   }
   
+  onSubmit(data:any){
+    console.log('TEMPLATE DRIVEN FORM: ', data)
+  }
 }
