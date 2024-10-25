@@ -11,7 +11,7 @@ import { PurePipe } from "./pure.pipe";
 import { ImpurePipe } from "./impure.pipe";
 import {MatCardModule} from '@angular/material/card';
 import { MatButtonModule } from "@angular/material/button";
-import { FormControl, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 
 interface IPerson{
   name: string,
@@ -73,7 +73,10 @@ export class AppComponent {
   var3 = "hola";
   youtube = from([1, 2, 3, 4, 5, 6]);
 
-  constructor(private router: Router) {
+  studentForm!: FormGroup
+  router: any;
+
+  constructor(private formBuilder: FormBuilder) {
 
     const { name, age } = this.person;
 
@@ -86,22 +89,37 @@ export class AppComponent {
     this.scoreControl.valueChanges.subscribe((res) => {
       console.log('SCORE VALUE OBSERVABLE: ', res)
     })
+    this.studentForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      score: [''],
+      school: [''],
+      proffesor: [''],
+      university: ['']
+    })
+    this.studentForm.valueChanges.subscribe((res) => {
+      console.log('FORM GROUP OBSERVABLE: ', res)
+    })
+  }
+  onSendData() {
+    console.log('FORM GROUP: ', this.studentForm)
   }
 
   public sumPure(a:number, b:number): number {
     return a + b;
   }
+
   public sumImpure(a:number, b:number): number {
     return a + b + Math.random();
   }
 
-  public sum(...persons:number[]){
+  public sum(...persons: number[]) {
     //return persons[0] + persons[1]
     return persons.reduce(
       (acumulador, valorActual) => acumulador + valorActual,
       10
     );
   }
+
   addVideo() {
     this.youtube
       .pipe(
@@ -122,15 +140,15 @@ export class AppComponent {
   }
 
   public sum2(num1: number, num2: number): number {
-    return num1 + num2
+    return num1 + num2;
   }
 
-  public subtract(num1: number, num2: number): number {
-    return num1 - num2
+  private subtract(num1: number, num2: number): number {
+    return num1 - num2;
   }
 
-  public getArray() {
-    const persons: number[] = [1, 2, 3, 4, 5]
+  public getArray(): void {
+    const persons: number[] = [1, 2, 3, 4, 5];
     for (let i = 0; i < persons.length; i++) {
       //console.log('person =', persons[i])
     }
@@ -140,13 +158,13 @@ export class AppComponent {
     console.log("value: ", value);
   }
 
-  public receiveData(data:any){
-    console.log('Print in father component: ', data)
+  public receiveData(data: any) {
+    console.log("Print in father component: ", data);
   }
 
-  public onResult(event:any){
-    console.log('event from child:', event)
-    this.result = event ?? 0
+  public onResult(event: any) {
+    console.log("event from child:", event);
+    this.result = event ?? 0;
   }
 
   public addNumber() {
@@ -156,6 +174,7 @@ export class AppComponent {
   public goToStudentModule() {
     this.router.navigate(['student'])
   }
+
   public goToCard() {
     this.router.navigate(['card', 1])
   }
@@ -163,7 +182,7 @@ export class AppComponent {
   public onCalculator(){
     this.router.navigate(['cal'], {queryParams: {name: 'John', age: 20}})
   }
-  
+
   onSubmit(data:any){
     console.log('TEMPLATE DRIVEN FORM: ', data)
   }
@@ -171,4 +190,5 @@ export class AppComponent {
   onPrintScore(){
     console.log('SCORE: ', this.scoreControl.value)
   }
+
 }
