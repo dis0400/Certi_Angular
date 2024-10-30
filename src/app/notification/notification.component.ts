@@ -1,21 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { User } from '../app.component';
 import { CommonModule } from '@angular/common';
-import { NotificationService } from '../notification.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-notification',
-  standalone: true, 
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss'],
-  imports: [CommonModule]
+  styleUrl: './notification.component.scss'
 })
-export class NotificationComponent implements OnInit {
-  notifications$: Observable<any[]>;
 
-  constructor(private notificationService: NotificationService) {
-    this.notifications$ = this.notificationService.getNotifications();
+export class NotificationComponent implements OnInit{
+  @Input() notifications!: string[];
+  @Input() user!: User;
+
+  ngOnInit() {
+    if (this.user.subscriptionType === 'Premium') {
+      this.user.notifications.forEach(notification => {
+        if (notification.includes('tiktok') || notification.includes('whatsapp')) {
+          this.user.amountAvailable -= 5;
+        }
+      });
+    }
   }
-
-  ngOnInit(): void {}
 }

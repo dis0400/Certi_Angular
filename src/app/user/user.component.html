@@ -1,49 +1,88 @@
-<div class="user-grid">
-    <div *ngFor="let user of users" class="user-section">
-      <div class="tabs">
-        <button (click)="showUserInfo(user.user_id)" [class.active]="activeTabs[user.user_id] === 'user'">User</button>
-        <button (click)="showNotifications(user.user_id)" [class.active]="activeTabs[user.user_id] === 'notifications'">
-          Notifications ({{ getFilteredNotifications(user).length }})
-        </button>
-      </div>
-  
-      <div *ngIf="activeTabs[user.user_id] === 'user'">
-        <h2>User Information</h2>
-        <p><strong>Name:</strong> {{ user.name }}</p>
-        <p><strong>Age:</strong> {{ user.age }}</p>
-        <p><strong>Status:</strong> {{ user.status }}</p>
-  
-        <h3>Subscription Type</h3>
-        <button [class.active]="user.subscriptionType === 'free'" (click)="toggleSubscription(user, 'free')">Free</button>
-        <button [class.active]="user.subscriptionType === 'premium'" (click)="toggleSubscription(user, 'premium')">Premium</button>
-  
-        <p><strong>Amount Available:</strong> {{ user.amountAvailable }}$</p>
-  
-        <div class="social-networks">
-          <h3>Social Networks</h3>
-          <div class="network" *ngFor="let network of socialNetworks">
-            <div *ngIf="!user.subscriptions.includes(network.id)">
-              <span>{{ network.platform }}</span>
-              <button (click)="subscribe(user, network)">+</button>
-            </div>
-          </div>
-        </div>
+<div [ngClass]="{ 'opacity-50 pointer-events-none': disabled }">
+  <h3 class="text-lg font-semibold mb-2">Name: {{ user.name }}</h3>
+  <p>Age: {{ user.age }}</p>
+  <p>Status: {{ user.status }}</p>
+  <p>
+    Subscription type:
+    <span
+      class="px-2 py-1 rounded"
+      [ngClass]="{
+        'bg-gray-400': user.subscriptionType === 'free',
+        'bg-green-500 text-white': user.subscriptionType === 'premium'
+      }"
+    >
+      {{ user.subscriptionType }}
+    </span>
+  </p>
+  <div class="flex space-x-2 mt-2">
+    <button
+      (click)="changeSubscription('free')"
+      class="px-2 py-1 border rounded"
+      [ngClass]="{
+        'bg-gray-300': user.subscriptionType === 'free',
+        'hover:bg-green-100': user.subscriptionType !== 'free'
+      }"
+    >
+      Free
+    </button>
+    <button
+      (click)="changeSubscription('premium')"
+      class="px-2 py-1 border rounded"
+      [ngClass]="{
+        'bg-gray-300': user.subscriptionType === 'premium',
+        'hover:bg-green-100': user.subscriptionType !== 'premium'
+      }"
+    >
+      Premium
+    </button>
+  </div>
+  <p>Amount available: ${{ user.amountAvailable }}</p>
 
-        <div class="subscriptions">
-          <h3>Subscriptions</h3>
-          <div class="subscription" *ngFor="let sub of user.subscriptions">
-            <span>{{ getPlatformName(sub) }}</span>
-            <button (click)="unsubscribe(user, sub)">x</button>
-          </div>
-        </div>
-      </div>
- 
-      <div *ngIf="activeTabs[user.user_id] === 'notifications'">
-        <h2>Notifications</h2>
-        <ul>
-          <li *ngFor="let notification of getFilteredNotifications(user)">{{ notification }}</li>
-        </ul>
-      </div>
+  <div class="mt-4">
+    <h4 class="font-semibold mb-2">Social Networks</h4>
+    <div class="flex gap-2 flex-wrap">
+      <button
+        *ngFor="let network of availableNetworks"
+        (click)="subscribe(network)"
+        class="px-2 py-1 rounded flex items-center"
+        [ngClass]="{
+          'bg-red-200': network.platform === 'youtube',
+          'bg-purple-500 text-white': network.platform === 'tiktok',
+          'bg-yellow-200': network.platform === 'instagram',
+          'bg-blue-200': network.platform === 'facebook',
+          'bg-green-200': network.platform === 'whatsapp'
+        }"
+      >
+        {{ network.platform }} <span class="ml-2">+</span>
+      </button>
     </div>
   </div>
-  
+
+  <div class="mt-4">
+    <h4 class="font-semibold mb-2">Subscriptions</h4>
+    <div class="flex gap-2 flex-wrap">
+      <button
+        *ngFor="let network of userSubscriptions"
+        (click)="unsubscribe(network)"
+        class="px-2 py-1 rounded flex items-center"
+        [ngClass]="{
+          'bg-red-200': network.platform === 'youtube',
+          'bg-purple-500 text-white': network.platform === 'tiktok',
+          'bg-yellow-200': network.platform === 'instagram',
+          'bg-blue-200': network.platform === 'facebook',
+          'bg-green-200': network.platform === 'whatsapp'
+        }"
+      >
+        {{ network.platform }} <span class="ml-2">-</span>
+      </button>
+    </div>
+  </div>
+
+  <button
+    (click)="closeAccount()"
+    class="mt-4 bg-red-500 text-white px-4 py-2 rounded"
+    [disabled]="disabled"
+  >
+    Close account
+  </button>
+</div>

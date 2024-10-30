@@ -1,63 +1,89 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { UserComponent } from './user/user.component';
-import { NotificationComponent } from './notification/notification.component';
-import { NotificationService } from './notification.service';
-import { data, socialNetworks } from './data'; 
+import { RouterOutlet } from '@angular/router';
+import { filter, from, map, tap } from 'rxjs';
+import { data, socialNetworks } from './data';
+import { CardComponent } from './card/card.component';
+
+export interface User {
+  user_id: string;
+  name: string;
+  age: number;
+  status: string;
+  amountAvailable: number;
+  subscriptionType: string;
+  subscriptions: number[];
+  notifications: string[];
+}
 
 @Component({
   selector: 'app-root',
-  standalone: true, 
+  standalone: true,
+  imports: [RouterOutlet, CommonModule, CardComponent],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  imports: [UserComponent, NotificationComponent] 
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  activeTab: 'user' | 'notifications' = 'user';
-  users = Object.values(data);
+  title = 'angular-tour-of-heroes';
+  socialNetworks = socialNetworks;
+  users: User[] = Object.values(data);
 
-  constructor(private notificationService: NotificationService) {}
+  socialNetworksTypes = [
+    { platform: 'youtube', type: 'video', platformType: 'free' },
+    { platform: 'facebook', type: 'story', platformType: 'free' },
+    { platform: 'tiktok', type: 'video', platformType: 'premium' },
+    { platform: 'instagram', type: 'story', platformType: 'free' },
+    { platform: 'whatsapp', type: 'message', platformType: 'premium' },
+  ];
 
-  showUser() {
-    this.activeTab = 'user';
-  }
+  sendNotification(platform: string) {
+    const message = `${platform} added a new ${this.getPlatformType(platform)}`;
+    const platformId = this.getPlatformId(platform);
+    const isPremium = this.isPlatformPremium(platform);
 
-  showNotifications() {
-    this.activeTab = 'notifications';
-  }
-
-  addNewNotification(network: string, message: string): void {
-    const isPremium = ['tiktok', 'whatsapp'].includes(network);
-    this.notificationService.addNotification(network, message, isPremium);
-
-    const platformData = socialNetworks.find(s => s.platform === network);
-
-    if (platformData) {
-      this.sendNotification(platformData);
-    }
-  }
-
-  sendNotification(network: any) {
-    const platformId = network.id;
-
-    for (let user of this.users) {
-      if (user.subscriptions.includes(platformId)) {
-
-        if (network.platform === 'tiktok' || network.platform === 'whatsapp') {
-          if (user.subscriptionType === 'premium') {
-            if (user.amountAvailable >= 5) {
-              user.amountAvailable -= 5;
-              user.notifications.push(`${network.platform} sent a new ${network.type}`);
-            } else {
-              console.log(`${user.name} does not have enough balance to receive a notification from ${network.platform}`);
-            }
-          } else {
-            console.log(`${user.name} cannot receive notifications from ${network.platform}`);
+    from(this.users)
+      .pipe(
+        filter((user) => user.status === 'active'),
+        filter((user) => user.subscriptions.includes(platformId)),
+        map((user) => {
+          if (!isPremium) {
+            user.notifications.push(message);
           }
-        } else {
+          if (
+            isPremium &&
+            user.amountAvailable >= 5 &&
+            user.subscriptionType === 'premium'
+          ) {
+            user.amountAvailable -= 5;
+            user.notifications.push(message);
+          }
+          return user;
+        }),
+        tap((user) =>
+          console.log(`Notification added to ${user.name}: ${message}`)
+        )
+      )
+      .subscribe();
+  }
 
-          user.notifications.push(`${network.platform} added a new ${network.type}`);
-        }
-      }
-    }
+  private getPlatformType(platform: string): string {
+    const network = this.socialNetworks.find((n) => n.platform === platform);
+    return network ? network.type : 'content';
+  }
+
+  private getPlatformId(platform: string): number {
+    const platforms = [
+      'youtube',
+      'facebook',
+      'tiktok',
+      'instagram',
+      'whatsapp',
+    ];
+    return platforms.indexOf(platform) + 1;
+  }
+
+  private isPlatformPremium(platform: string): boolean {
+    const network = this.socialNetworks.find((n) => n.platform === platform);
+    return network ? network.platformType === 'premium' : false;
   }
 }

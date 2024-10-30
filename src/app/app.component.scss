@@ -1,52 +1,29 @@
-.header {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .btn {
-    padding: 10px;
-    border-radius: 5px;
-    color: white;
-    font-weight: bold;
-  }
-  
-  .youtube {
-    background-color: #f44336;
-  }
-  
-  .tiktok {
-    background-color: #673ab7;
-  }
-  
-  .instagram {
-    background-color: #ff9800;
-  }
-  
-  .facebook {
-    background-color: #2196f3;
-  }
-  
-  .whatsapp {
-    background-color: #4caf50;
-  }
-  
-  .content {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .user-section, .notification-section {
-    width: 50%;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-  }
-  
-  .notification-item {
-    background-color: #f1f1f1;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-  }
-  
+.social-network {
+  width: 100px; 
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px; 
+  margin-bottom: 10px;
+}
+
+.bg-youtube {
+  background-color: #FF0000;
+}
+
+.bg-facebook {
+  background-color: #3b5998;
+}
+
+.bg-tiktok {
+  background-color: #000000;
+}
+
+.bg-instagram {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 50%, #dc2743 100%);
+}
+
+.bg-whatsapp {
+  background-color: #25D366;
+}

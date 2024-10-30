@@ -1,7 +1,16 @@
-<div class="notifications">
-    <h2>Notifications</h2>
-    <div *ngFor="let notification of notifications$ | async" class="notification-item">
-      <p>{{ notification.network }}: {{ notification.message }}</p>
-    </div>
-  </div>
-  
+<div [ngClass]="{ 'opacity-50 pointer-events-none': user.status === 'inactive' }">
+  <div
+  *ngFor="let notification of notifications"
+  class="p-2 mb-2 rounded"
+  [ngClass]="{
+         'bg-red-200': notification.includes('youtube'),
+         'bg-purple-200': notification.includes('tiktok'),
+         'bg-green-200': notification.includes('whatsapp'),
+         'bg-blue-200': notification.includes('facebook'),
+         'bg-yellow-200': notification.includes('instagram'),
+
+       }"
+>
+  {{ notification }}
+</div>
+</div>

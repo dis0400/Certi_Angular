@@ -1,58 +1,69 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { User } from '../app.component';
 import { CommonModule } from '@angular/common';
-import { data, socialNetworks } from '../data'; 
+
+export interface SocialNetwork {
+  id: number;
+  platform: string;
+}
 
 @Component({
   selector: 'app-user',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss'],
-  imports: [CommonModule]
+  styleUrl: './user.component.scss'
 })
-export class UserComponent implements OnInit {
-  activeTabs: { [key: string]: 'user' | 'notifications' } = {};
-  users = Object.values(data);
-  socialNetworks = socialNetworks; 
+export class UserComponent {
+  @Input() user!: User;
+  disabled: boolean = false;
+  availableNetworks: SocialNetwork[] = [];
+  userSubscriptions: SocialNetwork[] = [];
+  
+  getPlatformName(id: number): string {
+    const platforms = ['youtube', 'facebook', 'tiktok', 'instagram', 'tiktok'];
+    return platforms[id - 1] || 'unknown';
+  }
+
+
+  socialNetworks: SocialNetwork[] = [
+    { id: 1, platform: 'youtube' },
+    { id: 2, platform: 'facebook' },
+    { id: 3, platform: 'tiktok' },
+    { id: 4, platform: 'instagram' },
+    { id: 5, platform: 'whatsapp' }
+  ];
 
   ngOnInit() {
-    this.users.forEach(user => {
-      this.activeTabs[user.user_id] = 'user';
-    });
+    this.userSubscriptions = this.socialNetworks.filter(network =>
+      this.user.subscriptions.includes(network.id)
+    );
+    this.availableNetworks = this.socialNetworks.filter(network =>
+      !this.user.subscriptions.includes(network.id)
+    );
+    this.disabled = this.user.status !== 'active';
   }
 
-  showUserInfo(userId: string) {
-    this.activeTabs[userId] = 'user';
+  subscribe(network: SocialNetwork) {
+    this.user.subscriptions.push(network.id);
+    this.userSubscriptions.push(network);
+
+    this.availableNetworks = this.availableNetworks.filter(n => n.id !== network.id);
   }
 
-  showNotifications(userId: string) {
-    this.activeTabs[userId] = 'notifications';
+  unsubscribe(network: SocialNetwork) {
+    this.user.subscriptions = this.user.subscriptions.filter(id => id !== network.id);
+    this.userSubscriptions = this.userSubscriptions.filter(n => n.id !== network.id);
+
+    this.availableNetworks.push(network);
   }
 
-  subscribe(user: any, network: any) {
-    user.subscriptions.push(network.id);
+  changeSubscription(type: string) {
+    this.user.subscriptionType = type;
   }
 
-  unsubscribe(user: any, networkId: number) {
-    user.subscriptions = user.subscriptions.filter((id: number) => id !== networkId);
-  }
-
-  getPlatformName(platformId: number) {
-    const platform = this.socialNetworks.find(network => network.id === platformId);
-    return platform ? platform.platform : '';
-  }
-
-  getFilteredNotifications(user: any) {
-    if (user.subscriptionType === 'free') {
-      return user.notifications.filter((notification: string) =>
-        !['tiktok', 'whatsapp'].some(premiumPlatform =>
-          notification.toLowerCase().includes(premiumPlatform)
-        )
-      );
-    }
-    return user.notifications;
-  }
-
-  toggleSubscription(user: any, type: 'free' | 'premium') {
-    user.subscriptionType = type;
+  closeAccount() {
+    this.user.status = 'inactive';
+    this.disabled = true;
   }
 }

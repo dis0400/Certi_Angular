@@ -1,0 +1,22 @@
+<div class="bg-white shadow-md rounded p-4 w-96">
+    <div class="flex justify-between mb-4">
+      <button (click)="view = 'user'" [class.font-bold]="view === 'user'">
+        User
+      </button>
+      <button
+        (click)="view = 'notifications'"
+        [class.font-bold]="view === 'notifications'"
+      >
+        Notifications ({{ user.notifications.length }})
+      </button>
+    </div>
+    <ng-container *ngIf="view === 'user'">
+      <app-user [user]="user"></app-user>
+    </ng-container>
+    <ng-container *ngIf="view === 'notifications'">
+      <app-notification
+        [notifications]="user.notifications"
+        [user]="user"
+      ></app-notification>
+    </ng-container>
+  </div>

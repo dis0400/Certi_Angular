@@ -1,14 +1,31 @@
-<div class="header">
-  <button class="btn youtube" (click)="addNewNotification('youtube', 'added a new video')">Add new video (Youtube)</button>
-  <button class="btn tiktok" (click)="addNewNotification('tiktok', 'added a new video')">Add new video (Tiktok) ★</button>
-  <button class="btn instagram" (click)="addNewNotification('instagram', 'added a new story')">Add new story (Instagram)</button>
-  <button class="btn facebook" (click)="addNewNotification('facebook', 'added a new story')">Add new story (Facebook)</button>
-  <button class="btn whatsapp" (click)="addNewNotification('whatsapp', 'sent a new message')">Add new message (Whatsapp) ★</button>
-</div>
+<div
+  class=" bg-yellow-300 flex flex-col justify-center items-center py-5"
+>
+    <div class="flex flex-wrap gap-2 justify-center">
+      <div *ngFor="let network of socialNetworks" class="flex flex-col items-center">
+        <button 
+          (click)="sendNotification(network.platform)"
+          class="bg-white border border-black text-black px-4 py-2 mb-2 rounded hover:bg-gray-200"
+        >
+          add new {{ network.type }}
+        </button>
+        <div 
+          class="p-4 rounded-lg w-24 flex items-center justify-center" 
+          [ngClass]="{
+            'bg-red-200': network.platform === 'youtube',
+            'bg-purple-500 text-white': network.platform === 'tiktok',
+            'bg-yellow-200': network.platform === 'instagram',
+            'bg-blue-200': network.platform === 'facebook',
+            'bg-green-200': network.platform === 'whatsapp'
+          }"
+        >
+          <span *ngIf="network.platformType === 'premium'" class="mr-2">⭐</span>
+          {{ network.platform }}
+        </div>
+      </div>
+    </div>
 
-<div class="content">
-  <div class="user-section">
-    <app-user></app-user>
+  <div class="grid grid-cols-3 gap-4 p-4">
+    <app-card *ngFor="let user of users" [user]="user"></app-card>
   </div>
-  
 </div>
