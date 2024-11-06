@@ -1,0 +1,20 @@
+<div class="cities-container">
+    <h2>Cities List</h2>
+    
+    <div>
+      <input type="text" [(ngModel)]="newCity" placeholder="Add a new city" />
+      <button (click)="addCity()">Add City</button>
+    </div>
+    
+    <input type="text" (input)="filterCities($event)" placeholder="Search cities..." />
+
+    <p>Found {{ filteredCities.length }} cities</p>
+  
+    <ul>
+      <li *ngFor="let city of filteredCities">
+        {{ city.name }}
+        <button (click)="deleteCity(city.name)">Delete</button>
+      </li>
+    </ul>
+  </div>
+  
