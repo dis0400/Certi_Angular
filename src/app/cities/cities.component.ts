@@ -1,63 +1,48 @@
-import { Component, OnInit } from '@angular/core';
-import { CitiesService } from '../cities.service';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CitiesService, City } from '../cities.service';
 
 @Component({
   selector: 'app-cities',
   standalone: true,
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './cities.component.html',
   styleUrls: ['./cities.component.scss']
 })
 export class CitiesComponent implements OnInit {
-  cities: any[] = [];
-  newCity: string = '';
-  filteredCities: any[] = [];
+  public cities: City[] = [];
+  public filteredCities: City[] = [];
+  public newCityName: string = '';
+  public filterText: string = '';
+  public errorMessage: string = '';
 
-  constructor(private citiesService: CitiesService) {}
+  constructor(private _citiesService: CitiesService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    const savedCities = this.citiesService.getCitiesFromLocalStorage();
-    if (savedCities) {
-      this.cities = savedCities;
-    } else {
-      this.loadCitiesFromJson();
-    }
-    this.filteredCities = [...this.cities];
-  }
-
-  loadCitiesFromJson() {
-    this.citiesService.loadCities().subscribe(data => {
-      this.cities = data;
+    this._citiesService.cities$.subscribe((res) => {
+      this.cities = res;
       this.filteredCities = [...this.cities];
-      this.citiesService.saveToLocalStorage(this.cities);
+      this.cdr.detectChanges();
     });
   }
-
-  addCity() {
-    if (this.newCity && !this.cities.some(city => city.name.toLowerCase() === this.newCity.toLowerCase())) {
-      const newId = this.cities.length > 0 ? Math.max(...this.cities.map(c => c.id)) + 1 : 1;
-      this.cities.push({ id: newId, name: this.newCity });
-      this.filteredCities = [...this.cities];
-      this.citiesService.saveToLocalStorage(this.cities);
-      this.newCity = '';
-    } else {
-      alert('City already exists or name is empty.');
+  addCity(): void {
+    try {
+      if (!this.newCityName.trim()) return;
+      this._citiesService.addCity(this.newCityName);
+      this.newCityName = '';
+      this.errorMessage = '';
+    } catch (error: any) {
+      this.errorMessage = error.message;
     }
   }
 
-  deleteCity(cityName: string) {
-    this.cities = this.cities.filter(city => city.name !== cityName);
-    this.filteredCities = [...this.cities];
-    this.citiesService.saveToLocalStorage(this.cities);
+  deleteCity(cityName: string): void {
+    this._citiesService.deleteCity(cityName);
   }
 
-  filterCities(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    const query = inputElement.value;
-    this.filteredCities = this.cities.filter(city =>
-      city.name.toLowerCase().includes(query.toLowerCase())
-    );
+  filterCities(): void {
+    const filter = this.filterText.toLowerCase();
+    this.filteredCities = this.cities.filter(city => city.name.toLowerCase().includes(filter));
   }
-  
 }
